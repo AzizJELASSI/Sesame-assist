@@ -1,0 +1,237 @@
+{
+  "@@locale": "en",
+  "appTitle": "SEASAME Assist-Pro",
+  "@appTitle": { "description": "Application title" },
+
+  "tagline": "Smart University Ticketing",
+  "@tagline": { "description": "App tagline" },
+
+  "signIn": "Sign In",
+  "signUp": "Sign Up",
+  "signOut": "Sign Out",
+  "email": "Email address",
+  "password": "Password",
+  "fullName": "Full name",
+  "confirmPassword": "Confirm password",
+  "forgotPassword": "Forgot password?",
+  "noAccount": "Don't have an account?",
+  "haveAccount": "Already have an account?",
+  "createAccount": "Create account",
+
+  "role": "Role",
+  "roleStudent": "Student",
+  "roleTeacher": "Teacher",
+  "roleAgent": "Support Agent",
+  "roleAdmin": "Administrator",
+
+  "department": "Department",
+  "filiere": "Programme",
+  "selectDepartment": "Select department",
+  "selectFiliere": "Select programme",
+
+  "dashboard": "Dashboard",
+  "myTickets": "My Tickets",
+  "newTicket": "New Ticket",
+  "allTickets": "All Tickets",
+  "queue": "Queue",
+  "reports": "Reports",
+  "users": "Users",
+  "settings": "Settings",
+
+  "ticketTitle": "Title",
+  "ticketDescription": "Description",
+  "ticketType": "Type",
+  "ticketPriority": "Priority",
+  "ticketStatus": "Status",
+  "ticketDepartment": "Department",
+  "ticketCreatedBy": "Created by",
+  "ticketAssignedTo": "Assigned to",
+  "ticketCreatedAt": "Created",
+  "ticketUpdatedAt": "Updated",
+
+  "priorityLow": "Low",
+  "priorityMedium": "Medium",
+  "priorityHigh": "High",
+
+  "statusOpen": "Open",
+  "statusInProgress": "In Progress",
+  "statusWaitingOnUser": "Waiting on You",
+  "statusResolved": "Resolved",
+  "statusClosed": "Closed",
+
+  "ticketTypeAcademic": "Academic",
+  "ticketTypeIT": "IT Issue",
+  "ticketTypeHR": "HR Request",
+  "ticketTypeFacility": "Facility",
+  "ticketTypeClassroomIT": "Classroom IT",
+
+  "comments": "Comments",
+  "addComment": "Add a comment…",
+  "internalNote": "Internal note",
+  "submitComment": "Submit",
+
+  "aiAssistant": "AI Assistant",
+  "aiHint": "Describe your issue and I'll help draft a ticket…",
+  "aiDraftReady": "Draft ready — review and confirm",
+  "aiConfirm": "Create Ticket",
+  "aiEdit": "Edit Draft",
+  "aiDiscard": "Discard",
+
+  "noTickets": "No tickets yet",
+  "noTicketsHint": "Tap + to create your first ticket",
+
+  "search": "Search tickets…",
+  "filter": "Filter",
+  "sortBy": "Sort by",
+  "sortNewest": "Newest first",
+  "sortOldest": "Oldest first",
+  "sortPriority": "By priority",
+
+  "save": "Save",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "edit": "Edit",
+  "confirm": "Confirm",
+  "loading": "Loading…",
+  "error": "Something went wrong",
+  "retry": "Retry",
+  "success": "Success",
+
+  "validationRequired": "This field is required",
+  "validationEmail": "Enter a valid email address",
+  "validationPasswordLength": "Password must be at least 8 characters",
+  "validationPasswordMatch": "Passwords do not match",
+
+  "language": "Language",
+  "langEn": "English",
+  "langFr": "Français",
+  "langAr": "العربية",
+
+  "totalTickets": "Total Tickets",
+  "openTickets": "Open",
+  "resolvedTickets": "Resolved",
+  "avgResolutionTime": "Avg. Resolution",
+
+  "attachments": "Attachments",
+  "addAttachment": "Add file",
+  "noAttachments": "No attachments",
+  "attachmentUploading": "Uploading…",
+  "attachmentDownload": "Download",
+
+  "updateStatus": "Update Status",
+  "deleteTicket": "Delete Ticket",
+  "deleteTicketConfirm": "Are you sure you want to delete this ticket? This action cannot be undone.",
+  "deleteConfirmBtn": "Yes, delete",
+  "ticketDeleted": "Ticket deleted successfully",
+
+  "agentQueue": "Agent Queue",
+  "@agentQueue": { "description": "Agent queue screen title" },
+
+  "adminPanel": "Admin Panel",
+  "@adminPanel": { "description": "Admin panel title" },
+
+  "userManagement": "User Management",
+  "@userManagement": { "description": "User management screen title" },
+
+  "departmentManagement": "Department Management",
+  "@departmentManagement": { "description": "Department management screen title" },
+
+  "systemStats": "System Statistics",
+  "@systemStats": { "description": "System statistics screen title" },
+
+  "bulkUpdate": "Bulk Update",
+  "@bulkUpdate": { "description": "Bulk update action label" },
+
+  "bulkUpdateStatus": "Update Status for Selected",
+  "selectedCount": "{count} selected",
+  "@selectedCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "clearSelection": "Clear Selection",
+  "selectAll": "Select All",
+
+  "noUsersFound": "No users found",
+  "createUser": "Create User",
+  "editUser": "Edit User",
+  "deleteUser": "Delete User",
+  "deleteUserConfirm": "Are you sure you want to delete this user?",
+  "userSaved": "User saved successfully",
+  "userDeleted": "User deleted successfully",
+  "assignRole": "Assign Role",
+  "assignDepartment": "Assign Department",
+
+  "totalUsers": "Total Users",
+  "totalAgents": "Total Agents",
+  "closedTickets": "Closed",
+  "activeTickets": "Active",
+  "systemOverview": "System Overview",
+  "departmentBreakdown": "Department Breakdown",
+
+  "filterByDepartment": "Filter by Department",
+  "filterByStatus": "Filter by Status",
+  "filterByPriority": "Filter by Priority",
+  "allDepartments": "All Departments",
+  "allStatuses": "All Statuses",
+  "allPriorities": "All Priorities",
+
+  "sortNewestFirst": "Newest First",
+  "sortOldestFirst": "Oldest First",
+  "sortByPriority": "By Priority",
+
+  "completeYourProfile": "Complete Your Profile",
+  "completeProfileHint": "Your account is ready. Please add your details to get started.",
+  "saveAndContinue": "Save & Continue",
+
+  "agentQueue": "Agent Queue",
+  "@agentQueue": { "description": "Agent queue screen title" },
+
+  "adminPanel": "Admin Panel",
+  "@adminPanel": { "description": "Admin panel title" },
+
+  "userManagement": "User Management",
+  "@userManagement": { "description": "User management screen title" },
+
+  "departmentManagement": "Department Management",
+  "@departmentManagement": { "description": "Department management screen title" },
+
+  "systemStats": "System Statistics",
+  "@systemStats": { "description": "System statistics screen title" },
+
+  "bulkUpdate": "Bulk Update",
+  "@bulkUpdate": { "description": "Bulk update action label" },
+
+  "bulkUpdateStatus": "Update Status for Selected",
+  "selectedCount": "{count} selected",
+  "@selectedCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "clearSelection": "Clear Selection",
+  "selectAll": "Select All",
+
+  "noUsersFound": "No users found",
+  "createUser": "Create User",
+  "editUser": "Edit User",
+  "deleteUser": "Delete User",
+  "deleteUserConfirm": "Are you sure you want to delete this user? This will permanently remove their account.",
+  "userSaved": "User saved successfully",
+  "userDeleted": "User deleted successfully",
+  "assignRole": "Assign Role",
+  "assignDepartment": "Assign Department",
+
+  "totalUsers": "Total Users",
+  "totalAgents": "Total Agents",
+  "closedTickets": "Closed",
+  "activeTickets": "Active",
+  "systemOverview": "System Overview",
+  "departmentBreakdown": "Department Breakdown",
+
+  "filterByDepartment": "Filter by Department",
+  "filterByStatus": "Filter by Status",
+  "filterByPriority": "Filter by Priority",
+  "allDepartments": "All Departments",
+  "allStatuses": "All Statuses",
+  "allPriorities": "All Priorities"
+}
+
