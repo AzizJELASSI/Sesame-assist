@@ -1,4 +1,6 @@
 import '../enums/department_filiere.dart';
+import '../enums/sla_status.dart';
+import '../utils/business_hours.dart';
 
 // ─── SEASAME Assist-Pro — Ticket Model ────────────────────────────────────────
 class Ticket {
@@ -15,6 +17,13 @@ class Ticket {
   final Map<String, dynamic>? aiDraft;
   final DateTime createdAt;
   final DateTime updatedAt;
+
+  // SLA fields (populated from DB columns)
+  final DateTime? slaResponseDueAt;
+  final DateTime? slaResolutionDueAt;
+  final bool slaBreached;
+  /// Non-null when ticket is currently in 'waiting_on_user' (clock paused).
+  final DateTime? slaPausedAt;
 
   // Joined fields (populated via select with joins)
   final String? creatorName;
@@ -34,6 +43,10 @@ class Ticket {
     this.aiDraft,
     required this.createdAt,
     required this.updatedAt,
+    this.slaResponseDueAt,
+    this.slaResolutionDueAt,
+    this.slaBreached = false,
+    this.slaPausedAt,
     this.creatorName,
     this.assigneeName,
   });
@@ -64,6 +77,16 @@ class Ticket {
       updatedAt: json['updated_at'] != null
           ? DateTime.parse(json['updated_at'] as String)
           : DateTime.now(),
+      slaResponseDueAt: json['sla_response_due_at'] != null
+          ? DateTime.parse(json['sla_response_due_at'] as String)
+          : null,
+      slaResolutionDueAt: json['sla_resolution_due_at'] != null
+          ? DateTime.parse(json['sla_resolution_due_at'] as String)
+          : null,
+      slaBreached: json['sla_breached'] as bool? ?? false,
+      slaPausedAt: json['sla_paused_at'] != null
+          ? DateTime.parse(json['sla_paused_at'] as String)
+          : null,
       creatorName: creatorProfile?['full_name'] as String?,
       assigneeName: assigneeProfile?['full_name'] as String?,
     );
@@ -73,6 +96,40 @@ class Ticket {
   bool get isResolved => status == 'resolved' || status == 'closed';
   bool get isHighPriority => priority == 'high';
   bool get hasAiDraft => aiDraft != null;
+
+  /// Whether the SLA clock is currently paused (ticket waiting on user).
+  bool get isSlaPaused => status == 'waiting_on_user';
+
+  /// Remaining business minutes to the resolution deadline.
+  /// Returns null when no deadline is set.
+  /// Returns a large positive number when paused (clock stopped).
+  int? get slaRemainingMinutes {
+    if (slaResolutionDueAt == null) return null;
+    if (isSlaPaused) {
+      // Clock is paused – return remaining minutes as of pause start.
+      final pauseStart = slaPausedAt ?? DateTime.now();
+      return BusinessHours.remainingBusinessMinutes(
+          pauseStart, slaResolutionDueAt!);
+    }
+    return BusinessHours.remainingBusinessMinutes(
+        DateTime.now(), slaResolutionDueAt!);
+  }
+
+  /// Computed SLA status based on remaining time vs total resolution window.
+  SlaStatus get slaStatus {
+    if (slaBreached) return SlaStatus.breached;
+    if (slaResolutionDueAt == null) return SlaStatus.onTrack;
+
+    final remaining = slaRemainingMinutes ?? 0;
+    if (remaining < 0) return SlaStatus.breached;
+
+    // Compute total window in business minutes to decide 'at risk' threshold.
+    final totalMinutes = BusinessHours.elapsedBusinessMinutes(
+        createdAt, slaResolutionDueAt!);
+    final threshold = (totalMinutes * 0.25).round(); // last 25 % = at risk
+    if (remaining <= threshold) return SlaStatus.atRisk;
+    return SlaStatus.onTrack;
+  }
 }
 
 // ─── TicketComment Model ───────────────────────────────────────────────────────

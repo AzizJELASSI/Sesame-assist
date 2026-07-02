@@ -68,6 +68,13 @@ const List<_NavEntry> _allNavEntries = [
     label: _labelStats,
     roles: ['admin'],
   ),
+  _NavEntry(
+    route: AppRoutes.adminSla,
+    icon: Icons.timer_outlined,
+    selectedIcon: Icons.timer_rounded,
+    label: _labelSla,
+    roles: ['admin'],
+  ),
 ];
 
 // Label functions (top-level so they can be const)
@@ -77,6 +84,7 @@ String _labelQueue(AppLocalizations l) => l.queue;
 String _labelUsers(AppLocalizations l) => l.users;
 String _labelDepartments(AppLocalizations l) => l.departmentManagement;
 String _labelStats(AppLocalizations l) => l.systemStats;
+String _labelSla(AppLocalizations l) => 'SLA';
 
 // ── Breakpoint ─────────────────────────────────────────────────────────────────
 const double kSidebarBreakpoint = 800;

@@ -7,6 +7,7 @@ import '../../../core/models/ticket.dart';
 import '../../../core/models/ticket_attachment.dart';
 import '../../../core/supabase_client.dart';
 import '../../../core/enums/department_filiere.dart';
+import '../../../core/utils/business_hours.dart';
 import '../../auth/controllers/auth_controller.dart';
 
 // ── Base ticket query helper ───────────────────────────────────────────────────
@@ -49,6 +50,26 @@ class MyTicketsNotifier extends AsyncNotifier<List<Ticket>> {
     final userId = SupabaseService.currentUser?.id;
     if (userId == null) return null;
 
+    // ── Compute SLA deadlines from the policy for this priority ──────────────
+    DateTime? slaResponseDueAt;
+    DateTime? slaResolutionDueAt;
+    try {
+      final policyData = await SupabaseService.client
+          .from('sla_policies')
+          .select('response_time_h, resolution_time_h')
+          .eq('priority', priority)
+          .maybeSingle();
+      if (policyData != null) {
+        final now = DateTime.now();
+        final responseH   = policyData['response_time_h']   as int;
+        final resolutionH = policyData['resolution_time_h'] as int;
+        slaResponseDueAt   = BusinessHours.addBusinessHours(now, responseH);
+        slaResolutionDueAt = BusinessHours.addBusinessHours(now, resolutionH);
+      }
+    } catch (_) {
+      // SLA policy fetch is non-critical; proceed without deadlines.
+    }
+
     final response = await SupabaseService.client
         .from('tickets')
         .insert({
@@ -59,6 +80,10 @@ class MyTicketsNotifier extends AsyncNotifier<List<Ticket>> {
           'department_id': department.name,
           'created_by': userId,
           if (aiDraft != null) 'ai_draft': aiDraft,
+          if (slaResponseDueAt != null)
+            'sla_response_due_at': slaResponseDueAt.toUtc().toIso8601String(),
+          if (slaResolutionDueAt != null)
+            'sla_resolution_due_at': slaResolutionDueAt.toUtc().toIso8601String(),
         })
         .select(_ticketSelect)
         .single();

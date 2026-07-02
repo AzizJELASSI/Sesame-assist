@@ -12,6 +12,9 @@ import '../controllers/ticket_controller.dart';
 import '../widgets/attachment_tile.dart';
 import '../widgets/comment_thread.dart';
 import '../../agents/providers/agent_queue_provider.dart';
+import '../../agents/providers/agents_list_provider.dart';
+import '../widgets/ticket_card.dart';
+import '../../sla/widgets/sla_badge.dart';
 
 class TicketDetailScreen extends ConsumerStatefulWidget {
   final String ticketId;
@@ -127,6 +130,14 @@ class _TicketDetailScreenState extends ConsumerState<TicketDetailScreen> {
               ).animate().fadeIn(duration: 400.ms),
               const SizedBox(height: 20),
 
+              // ── SLA Badge ────────────────────────────────────────────────
+              if (ticket.slaResolutionDueAt != null) ...[
+                SlaBadge(ticket: ticket, expanded: true)
+                    .animate()
+                    .fadeIn(delay: 80.ms, duration: 400.ms),
+                const SizedBox(height: 20),
+              ],
+
               // ── Title & Meta ────────────────────────────────────────────────
               Text(
                 ticket.title,
@@ -201,7 +212,7 @@ class _TicketDetailScreenState extends ConsumerState<TicketDetailScreen> {
                       scheme: scheme,
                       isEmpty: ticket.assigneeName == null,
                     ),
-                    if (ticket.assignedTo == null && profile?.canManageTickets == true) ...[
+                    if (ticket.assignedTo != profile?.id && profile?.isAgent == true) ...[
                       const SizedBox(height: 12),
                       SizedBox(
                         width: double.infinity,
@@ -212,9 +223,19 @@ class _TicketDetailScreenState extends ConsumerState<TicketDetailScreen> {
                             await ref.read(departmentTicketsProvider.notifier)
                                 .assignTicket(ticket.id, profile!.id);
                             ref.invalidate(ticketDetailProvider(ticket.id));
-                            // Also refresh queue to reflect assignment
                             ref.invalidate(agentQueueProvider);
                           },
+                        ),
+                      ),
+                    ],
+                    if (profile?.isAdmin == true) ...[
+                      const SizedBox(height: 12),
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton.icon(
+                          icon: const Icon(Icons.manage_accounts_rounded, size: 18),
+                          label: const Text('Assign Agent'),
+                          onPressed: () => _showAssignAgentModal(context, ref, ticket.id, scheme),
                         ),
                       ),
                     ],
@@ -470,6 +491,78 @@ void _showStatusSheet(BuildContext context, WidgetRef ref, Ticket ticket, AppLoc
               );
             }),
           ],
+        ),
+      );
+    },
+  );
+}
+
+void _showAssignAgentModal(
+  BuildContext context,
+  WidgetRef ref,
+  String ticketId,
+  ColorScheme scheme,
+) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    builder: (ctx) {
+      final agentsAsync = ref.watch(allAgentsProvider);
+      return SafeArea(
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.7,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Assign Ticket to Agent',
+                  style: Theme.of(ctx).textTheme.titleMedium),
+              const SizedBox(height: 16),
+              agentsAsync.when(
+                data: (agents) {
+                  if (agents.isEmpty) {
+                    return const Center(child: Text('No agents found.'));
+                  }
+                  return Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: agents.length,
+                      itemBuilder: (context, index) {
+                        final agent = agents[index];
+                        return ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: scheme.primaryContainer,
+                            foregroundColor: scheme.onPrimaryContainer,
+                            backgroundImage: agent.avatarUrl != null
+                                ? NetworkImage(agent.avatarUrl!)
+                                : null,
+                            child: agent.avatarUrl == null
+                                ? Text(agent.initials)
+                                : null,
+                          ),
+                          title: Text(agent.displayName),
+                          subtitle: Text(agent.department?.name ?? 'No Dept'),
+                          onTap: () async {
+                            Navigator.pop(ctx);
+                            await ref
+                                .read(departmentTicketsProvider.notifier)
+                                .assignTicket(ticketId, agent.id);
+                            ref.invalidate(ticketDetailProvider(ticketId));
+                            ref.invalidate(agentQueueProvider);
+                          },
+                        );
+                      },
+                    ),
+                  );
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (e, st) => Center(child: Text('Error: $e')),
+              ),
+            ],
+          ),
         ),
       );
     },

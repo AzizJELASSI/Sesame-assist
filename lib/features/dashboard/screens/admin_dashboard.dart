@@ -9,6 +9,7 @@ import 'package:seasame_assist_pro/l10n/generated/app_localizations.dart';
 import '../../auth/controllers/auth_controller.dart';
 import '../../shared/widgets/dashboard_scaffold.dart';
 import '../../tickets/controllers/ticket_controller.dart';
+import '../../sla/widgets/sla_breach_list.dart';
 
 class AdminDashboard extends ConsumerStatefulWidget {
   const AdminDashboard({super.key});
@@ -157,6 +158,13 @@ class _AdminDashboardState extends ConsumerState<AdminDashboard> {
 
         const SizedBox(height: 28),
 
+        // ── SLA Alerts ──────────────────────────────────────────────────────────
+        const SlaBreachList()
+            .animate()
+            .fadeIn(delay: 620.ms, duration: 400.ms),
+
+        const SizedBox(height: 28),
+
         Text('Administration', style: Theme.of(context).textTheme.titleMedium)
             .animate()
             .fadeIn(delay: 650.ms, duration: 400.ms),
@@ -196,6 +204,15 @@ class _AdminDashboardState extends ConsumerState<AdminDashboard> {
           color: const Color(0xFF10B981),
           onTap: () => context.go(AppRoutes.adminStats),
           animationDelay: 940,
+        ),
+        const SizedBox(height: 8),
+        QuickActionTile(
+          icon: Icons.timer_rounded,
+          label: 'SLA Management',
+          subtitle: 'Configure response & resolution targets',
+          color: const Color(0xFFF59E0B),
+          onTap: () => context.go(AppRoutes.adminSla),
+          animationDelay: 1020,
         ),
       ],
     );

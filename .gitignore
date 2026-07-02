@@ -50,3 +50,6 @@ app.*.map.json
 
 # Supabase local CLI state (contains project refs and tokens)
 supabase/.temp/
+
+# App constants contain embedded credentials — never commit
+lib/core/constants.dart

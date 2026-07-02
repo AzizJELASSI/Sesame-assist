@@ -64,7 +64,7 @@ class _TicketListScreenState extends ConsumerState<TicketListScreen> {
           ),
         ],
       ),
-      floatingActionButton: Column(
+      floatingActionButton: profile?.canManageTickets == true ? null : Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton.small(

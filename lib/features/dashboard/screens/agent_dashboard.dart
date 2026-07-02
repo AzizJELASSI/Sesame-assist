@@ -9,6 +9,7 @@ import 'package:seasame_assist_pro/l10n/generated/app_localizations.dart';
 import '../../auth/controllers/auth_controller.dart';
 import '../../shared/widgets/dashboard_scaffold.dart';
 import '../../tickets/controllers/ticket_controller.dart';
+import '../../sla/widgets/sla_breach_list.dart';
 
 class AgentDashboard extends ConsumerStatefulWidget {
   const AgentDashboard({super.key});
@@ -131,6 +132,13 @@ class _AgentDashboardState extends ConsumerState<AgentDashboard> {
         );
           },
         ),
+
+        const SizedBox(height: 28),
+
+        // ── SLA Alerts ──────────────────────────────────────────────────────────
+        const SlaBreachList()
+            .animate()
+            .fadeIn(delay: 510.ms, duration: 400.ms),
 
         const SizedBox(height: 28),
 

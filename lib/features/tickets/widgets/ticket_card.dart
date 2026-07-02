@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:intl/intl.dart';
 import '../../../core/models/ticket.dart';
 import '../../../core/theme.dart';
+import '../../sla/widgets/sla_badge.dart';
 
 class TicketCard extends StatelessWidget {
   final Ticket ticket;
@@ -170,6 +171,12 @@ class TicketCard extends StatelessWidget {
                         ],
                       ),
                     ),
+                  ],
+                  // SLA compact badge
+                  if (ticket.slaResolutionDueAt != null &&
+                      !ticket.isResolved) ...[
+                    const SizedBox(width: 8),
+                    SlaBadge(ticket: ticket),
                   ],
                 ],
               ),

@@ -18,6 +18,7 @@ import '../features/admin/screens/user_management_screen.dart';
 import '../features/admin/screens/department_management_screen.dart';
 import '../features/admin/screens/system_stats_screen.dart';
 import '../features/agents/screens/agent_queue_screen.dart';
+import '../features/admin/screens/sla_management_screen.dart';
 
 
 // ── Route paths ───────────────────────────────────────────────────────────────
@@ -35,6 +36,7 @@ class AppRoutes {
   static const String adminDepartments = '/admin/departments';
   static const String adminStats = '/admin/stats';
   static const String adminReports = '/admin/reports';
+  static const String adminSla = '/admin/sla';
 }
 
 // ── Router provider ───────────────────────────────────────────────────────────
@@ -160,6 +162,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.adminStats,
             builder: (context, state) => const SystemStatsScreen(),
+          ),
+          GoRoute(
+            path: AppRoutes.adminSla,
+            builder: (context, state) => const SlaManagementScreen(),
           ),
         ],
       ),

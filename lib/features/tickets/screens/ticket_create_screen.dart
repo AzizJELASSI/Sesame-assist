@@ -154,7 +154,7 @@ class _TicketCreateScreenState extends ConsumerState<TicketCreateScreen> {
       body: Form(
         key: _formKey,
         child: ListView(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           children: [
             // ── Ticket type selector ───────────────────────────────────────────
             Text(l10n.ticketType, style: Theme.of(context).textTheme.titleSmall)
@@ -163,11 +163,11 @@ class _TicketCreateScreenState extends ConsumerState<TicketCreateScreen> {
             const SizedBox(height: 10),
             GridView.count(
               crossAxisCount: 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              childAspectRatio: 2.4,
+              childAspectRatio: 3.2,
               children: _ticketTypes.map((t) {
                 final isSelected = _ticketType == t.$1;
                 return GestureDetector(
@@ -216,7 +216,7 @@ class _TicketCreateScreenState extends ConsumerState<TicketCreateScreen> {
               }).toList(),
             ).animate().fadeIn(delay: 100.ms, duration: 400.ms),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 16),
 
             // ── Title ──────────────────────────────────────────────────────────
             TextFormField(
@@ -226,32 +226,34 @@ class _TicketCreateScreenState extends ConsumerState<TicketCreateScreen> {
               decoration: InputDecoration(
                 labelText: l10n.ticketTitle,
                 prefixIcon: const Icon(Icons.title_rounded),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               ),
               validator: (v) =>
                   v == null || v.trim().isEmpty ? l10n.validationRequired : null,
             ).animate().fadeIn(delay: 200.ms, duration: 400.ms),
 
-            const SizedBox(height: 14),
+            const SizedBox(height: 12),
 
             // ── Description ────────────────────────────────────────────────────
             TextFormField(
               controller: _descCtrl,
-              minLines: 4,
-              maxLines: 8,
+              minLines: 3,
+              maxLines: 5,
               textCapitalization: TextCapitalization.sentences,
               decoration: InputDecoration(
                 labelText: l10n.ticketDescription,
                 alignLabelWithHint: true,
                 prefixIcon: const Padding(
-                  padding: EdgeInsets.only(bottom: 60),
+                  padding: EdgeInsets.only(bottom: 30),
                   child: Icon(Icons.description_outlined),
                 ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               ),
               validator: (v) =>
                   v == null || v.trim().isEmpty ? l10n.validationRequired : null,
             ).animate().fadeIn(delay: 280.ms, duration: 400.ms),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 16),
 
             // ── Priority selector ──────────────────────────────────────────────
             Text(l10n.ticketPriority,
@@ -271,7 +273,7 @@ class _TicketCreateScreenState extends ConsumerState<TicketCreateScreen> {
                       onTap: () => setState(() => _priority = p),
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 200),
-                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                         decoration: BoxDecoration(
                           color: isSelected
                               ? color.withValues(alpha: 0.1)
@@ -311,7 +313,7 @@ class _TicketCreateScreenState extends ConsumerState<TicketCreateScreen> {
               }).toList(),
             ).animate().fadeIn(delay: 380.ms, duration: 400.ms),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 16),
 
             // ── Department ─────────────────────────────────────────────────────
             Text(l10n.department,
@@ -365,7 +367,7 @@ class _DepartmentGrid extends StatelessWidget {
       mainAxisSpacing: 8,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      childAspectRatio: 2.6,
+      childAspectRatio: 3.2,
       children: Department.values.map((d) {
         final isSelected = selected == d;
         return GestureDetector(
